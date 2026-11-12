@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design Experts</title>
+    
+    <!-- Google Fonts for accurate typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for the Phone Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Global Variables & Resets --- */
+        :root {
+            --primary-teal: #00706B;     /* Exact teal brand color */
+            --text-dark: #1E1E1E;        /* Darkest gray for headings */
+            --text-light: #4A4A4A;       /* Softer gray for subtext */
+            --nav-text: #111111;         /* Menu link color */
+            --bg-color: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Header / Navigation Styles --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 60px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .logo svg {
+            width: 65px;
+            height: 45px;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            transform: translateX(35px); /* Centers the nav visually relative to the page */
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--nav-text);
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        nav a.active {
+            color: var(--primary-teal);
+        }
+
+        nav a:hover {
+            color: var(--primary-teal);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* --- Button Styles --- */
+        .btn-icon {
+            background-color: var(--primary-teal);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-teal);
+            color: white;
+            padding: 13px 26px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-icon:hover, .btn-primary:hover {
+            background-color: #005a56;
+        }
+
+        /* --- Hero Section Styles --- */
+        .hero {
+            text-align: center;
+            padding: 110px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 82px; /* Large, bold typography */
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.18;
+            margin-bottom: 35px;
+            letter-spacing: -2.5px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 45px;
+            font-weight: 400;
+            letter-spacing: -0.3px;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) {
+            header {
+                padding: 20px 30px;
+            }
+            nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .hero h1 {
+                font-size: 64px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px;
+            }
+            .hero h1 {
+                font-size: 46px;
+                letter-spacing: -1.5px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .header-actions {
+                display: none; /* Hide action buttons on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Area -->
+    <header>
+        <!-- Logo -->
+        <div class="logo">
+            <!-- Custom SVG mimicking the overlapping 'W' logo -->
+            <svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Left Light Teal Triangle -->
+                <polygon points="0,0 16,40 32,0" fill="#7FD1C9" opacity="0.85"/>
+                <!-- Right Light Teal Triangle -->
+                <polygon points="28,0 44,40 60,0" fill="#7FD1C9" opacity="0.85"/>
+                <!-- Center Dark Teal Overlapping Triangle -->
+                <polygon points="14,0 30,40 46,0" fill="#1C988D" opacity="0.95"/>
+            </svg>
+        </div>
+        
+        <!-- Center Navigation -->
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#">About</a>
+            <a href="#">Portfolio</a>
+            <a href="#">Services</a>
+            <a href="#">Blog</a>
+            <a href="#">FAQ</a>
+            <a href="#">Contact</a>
+        </nav>
+
+        <!-- Right Action Buttons -->
+        <div class="header-actions">
+            <a href="#" class="btn-icon"><i class="fa-solid fa-phone"></i></a>
+            <a href="#" class="btn-primary">Book a Discovery Call</a>
+        </div>
+    </header>
+
+    <!-- Main Hero Section -->
+    <main>
+        <section class="hero">
+            <h1>We are web design experts.<br>Melbourne based, globally<br>connected</h1>
+            <p>We Are Web Design is a Melbourne based web design agency creating high performance, user<br>friendly websites that drive results for businesses.</p>
+            <a href="#" class="btn-primary">Explore Our Work</a>
+        </section>
+    </main>
+
+</body>
+</html>

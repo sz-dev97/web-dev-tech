@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Fundamentals Dashboard</title>
+    <!-- Using Tailwind CSS for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom animation for results appearing */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <div class="max-w-6xl w-full">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">JavaScript Fundamentals</h1>
+            <p class="text-gray-600">Practical examples of variables, operators, and DOM manipulation.</p>
+        </header>
+
+        <!-- Dashboard Grid -->
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Card 1: Greeting Generator (Variables, Strings, Concatenation) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition hover:shadow-md">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-semibold">Greeting Generator</h2>
+                </div>
+                <p class="text-sm text-gray-500 mb-5">Concepts: Strings, Variables, Concatenation</p>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                        <input type="text" id="firstName" placeholder="e.g., John" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                        <input type="text" id="lastName" placeholder="e.g., Doe" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                    </div>
+                    <button onclick="generateGreeting()" class="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition active:scale-95">
+                        Generate Greeting
+                    </button>
+                </div>
+                
+                <!-- Output Area -->
+                <div id="greetingResultBox" class="hidden mt-5 p-4 bg-blue-50 border border-blue-100 rounded-lg fade-in">
+                    <p id="greetingOutput" class="text-blue-800 font-medium text-center"></p>
+                </div>
+            </div>
+
+            <!-- Card 2: Tip Calculator (Numbers, Arithmetic) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition hover:shadow-md">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-green-100 p-2 rounded-lg text-green-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-semibold">Tip Calculator</h2>
+                </div>
+                <p class="text-sm text-gray-500 mb-5">Concepts: Numbers, Arithmetic (+, *, /)</p>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Bill Amount ($)</label>
+                        <input type="number" id="billAmount" placeholder="0.00" min="0" step="0.01" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tip Percentage (%)</label>
+                        <input type="number" id="tipPercentage" placeholder="15" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition">
+                    </div>
+                    <button onclick="calculateTip()" class="w-full mt-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition active:scale-95">
+                        Calculate Total
+                    </button>
+                </div>
+                
+                <!-- Output Area -->
+                <div id="tipResultBox" class="hidden mt-5 p-4 bg-green-50 border border-green-100 rounded-lg fade-in">
+                    <p id="tipOutput" class="text-green-800 font-medium text-center"></p>
+                </div>
+            </div>
+
+            <!-- Card 3: Age Verifier (Relational Operators, Logic) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition hover:shadow-md">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-purple-100 p-2 rounded-lg text-purple-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-semibold">Age Verifier</h2>
+                </div>
+                <p class="text-sm text-gray-500 mb-5">Concepts: Relational Operators (>=), Booleans</p>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Your Age</label>
+                        <input type="number" id="userAge" placeholder="Enter age" min="0" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition">
+                    </div>
+                    <!-- Empty div for spacing to align buttons nicely with other cards -->
+                    <div class="h-16"></div> 
+                    <button onclick="verifyAge()" class="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition active:scale-95">
+                        Verify Access
+                    </button>
+                </div>
+                
+                <!-- Output Area -->
+                <div id="ageResultBox" class="hidden mt-5 p-4 border rounded-lg fade-in">
+                    <p id="ageOutput" class="font-medium text-center"></p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. Greeting Generator (Variables & Concatenation) ---
+        function generateGreeting() {
+            // Step 1: Declare variables and get values from HTML input fields
+            let firstName = document.getElementById('firstName').value;
+            let lastName = document.getElementById('lastName').value;
+
+            // Step 2: Use the concatenation operator (+) to join strings
+            let fullName = firstName + " " + lastName;
+            
+            // Check if inputs are empty
+            if (firstName === "" || lastName === "") {
+                alert("Please enter both first and last names."); // Only fallback if totally empty
+                return;
+            }
+
+            let greetingMessage = "Hello, " + fullName + "! Welcome to JavaScript.";
+
+            // Step 3: Display content back to the HTML DOM
+            document.getElementById('greetingOutput').innerText = greetingMessage;
+            
+            // UI enhancement: unhide the result box
+            document.getElementById('greetingResultBox').classList.remove('hidden');
+        }
+
+
+        // --- 2. Tip Calculator (Datatypes & Arithmetic) ---
+        function calculateTip() {
+            // Step 1: Get values. Note that input values are always Strings initially!
+            let billString = document.getElementById('billAmount').value;
+            let tipString = document.getElementById('tipPercentage').value;
+
+            // Step 2: Convert Strings to Number datatypes using parseFloat()
+            let billAmount = parseFloat(billString);
+            let tipPercent = parseFloat(tipString);
+
+            if (isNaN(billAmount) || isNaN(tipPercent)) {
+                return; // Exit if invalid input
+            }
+
+            // Step 3: Arithmetic Operators (*, /, +)
+            // Calculate tip amount
+            let tipAmount = billAmount * (tipPercent / 100);
+            // Calculate total
+            let totalAmount = billAmount + tipAmount;
+
+            // Step 4: Display content. toFixed(2) ensures it looks like currency
+            let resultText = "Tip: $" + tipAmount.toFixed(2) + " | Total: $" + totalAmount.toFixed(2);
+            
+            document.getElementById('tipOutput').innerText = resultText;
+            document.getElementById('tipResultBox').classList.remove('hidden');
+        }
+
+
+        // --- 3. Age Verifier (Relational Operators) ---
+        function verifyAge() {
+            // Step 1: Get value and convert to integer
+            let ageInput = document.getElementById('userAge').value;
+            let age = parseInt(ageInput);
+
+            if (isNaN(age)) return;
+
+            let resultBox = document.getElementById('ageResultBox');
+            let outputText = document.getElementById('ageOutput');
+
+            // Reset classes from previous clicks
+            resultBox.classList.remove('hidden', 'bg-red-50', 'border-red-200', 'bg-green-50', 'border-green-200');
+            outputText.classList.remove('text-red-800', 'text-green-800');
+
+            // Step 2: Relational Operator (>=)
+            // Checks if the left side is greater than or equal to the right side
+            let isAdult = age >= 18; // This results in a Boolean datatype (true or false)
+
+            // Step 3: Use the boolean result to decide what to display
+            if (isAdult) {
+                // If true
+                outputText.innerText = "Access Granted! You are " + age + ".";
+                resultBox.classList.add('bg-green-50', 'border-green-200');
+                outputText.classList.add('text-green-800');
+            } else {
+                // If false
+                outputText.innerText = "Access Denied. You must be 18 or older.";
+                resultBox.classList.add('bg-red-50', 'border-red-200');
+                outputText.classList.add('text-red-800');
+            }
+        }
+    </script>
+</body>
+</html>

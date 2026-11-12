@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Formwright · Drag-and-drop form builder</title>
+  <meta name="description" content="Build forms by dragging fields onto a canvas. Preview them live, export JSON and save to your browser.">
+
+  <!-- Fonts are optional: the stylesheet falls back to system fonts if they can't load. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#sheet">Skip to the form canvas</a>
+
+  <div class="app" id="app" data-mode="build">
+
+    <!-- ============ Top bar ============ -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Formwright</span>
+      </div>
+
+      <div class="segmented mode-switch" role="group" aria-label="Editor mode">
+        <button type="button" class="seg-btn is-active" id="modeBuild" aria-pressed="true">
+          <span class="seg-icon" data-icon="edit" data-size="16"></span>Build
+        </button>
+        <button type="button" class="seg-btn" id="modePreview" aria-pressed="false">
+          <span class="seg-icon" data-icon="eye" data-size="16"></span>Preview
+        </button>
+      </div>
+
+      <div class="topbar-spacer"></div>
+
+      <span class="status" id="saveStatus" data-state="new" title="Your work is kept in this browser automatically. Press Save to add it to your library.">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="status-text" role="status">New form</span>
+      </span>
+
+      <div class="topbar-actions">
+        <button type="button" class="btn btn-ghost" id="btnNew" aria-label="New form">
+          <span data-icon="plus"></span><span class="btn-label">New</span>
+        </button>
+        <button type="button" class="btn btn-ghost" id="btnOpen" aria-label="Open saved forms">
+          <span data-icon="folder"></span><span class="btn-label">Open</span>
+        </button>
+        <button type="button" class="btn btn-ghost" id="btnExport" aria-label="Export as JSON">
+          <span data-icon="download"></span><span class="btn-label">Export</span>
+        </button>
+        <button type="button" class="btn btn-primary" id="btnSave" aria-label="Save form">
+          <span data-icon="save"></span><span class="btn-label">Save</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ============ Left: field palette ============ -->
+    <aside class="panel panel-left" id="leftPanel" aria-label="Form elements">
+      <div class="panel-head">
+        <div>
+          <h2>Add a field</h2>
+          <p>Drag one onto the form, or click to add it at the end.</p>
+        </div>
+        <button type="button" class="icon-btn icon-btn--light drawer-close" aria-label="Close panel"><span data-icon="close"></span></button>
+      </div>
+      <div class="palette" id="paletteList"></div>
+    </aside>
+
+    <!-- ============ Centre: canvas / preview ============ -->
+    <main class="workspace">
+      <div class="canvas-scroll" id="canvasScroll">
+
+        <!-- Build mode -->
+        <div class="build-stage" id="buildStage">
+          <section class="sheet" id="sheet" data-empty="true" aria-label="Form canvas">
+            <div class="sheet-head">
+              <input class="sheet-title" id="titleInput" type="text" placeholder="Untitled form" aria-label="Form title" autocomplete="off">
+              <textarea class="sheet-desc" id="descInput" rows="1" placeholder="Add a short description" aria-label="Form description"></textarea>
+            </div>
+
+            <div class="field-list" id="fieldList"></div>
+
+            <div class="empty-state" id="emptyState">
+              <svg class="empty-art" viewBox="0 0 96 72" width="96" height="72" aria-hidden="true">
+                <rect x="10" y="6" width="76" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+                <rect x="10" y="29" width="76" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+                <rect x="10" y="52" width="48" height="14" rx="4" fill="#E9A220" stroke="#C98A0C" stroke-width="2"/>
+              </svg>
+              <h3>Your form is empty</h3>
+              <p>Drag a field here from the left, or click one to add it.</p>
+              <button type="button" class="btn btn-secondary" id="sampleBtn">Start from an example</button>
+            </div>
+
+            <div class="sheet-foot sheet-foot--left" id="sheetFoot">
+              <button type="button" class="submit-btn" id="sheetSubmit" title="Edit the submit button in Form settings">Submit</button>
+            </div>
+          </section>
+        </div>
+
+        <!-- Preview mode -->
+        <div class="preview-stage" id="previewStage">
+          <div class="preview-toolbar">
+            <div class="segmented segmented--small device-switch" role="group" aria-label="Preview width">
+              <button type="button" class="seg-btn is-active" data-device="desktop" aria-pressed="true">Desktop</button>
+              <button type="button" class="seg-btn" data-device="tablet" aria-pressed="false">Tablet</button>
+              <button type="button" class="seg-btn" data-device="mobile" aria-pressed="false">Mobile</button>
+            </div>
+          </div>
+          <div class="device" id="device" data-device="desktop">
+            <div id="previewMount"></div>
+          </div>
+          <p class="preview-note">This is a live preview. Edit anything and it updates here. Click a field to change its settings.</p>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ============ Right: properties ============ -->
+    <aside class="panel panel-right" id="rightPanel" aria-label="Properties">
+      <div class="panel-tabs">
+        <div class="segmented" role="group" aria-label="Properties section">
+          <button type="button" class="seg-btn is-active" id="tabField" aria-pressed="true">Field</button>
+          <button type="button" class="seg-btn" id="tabForm" aria-pressed="false">Form settings</button>
+        </div>
+        <button type="button" class="icon-btn drawer-close" aria-label="Close panel"><span data-icon="close"></span></button>
+      </div>
+      <div class="panel-body" id="panelBody"></div>
+    </aside>
+
+    <!-- Tablet / phone shortcuts to the two panels -->
+    <nav class="dock" aria-label="Panels">
+      <button type="button" class="dock-btn" id="dockFields"><span data-icon="plus"></span>Add field</button>
+      <button type="button" class="dock-btn" id="dockProps"><span data-icon="sliders"></span>Settings</button>
+    </nav>
+    <div class="backdrop" id="backdrop"></div>
+  </div>
+
+  <!-- ============ Toasts ============ -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ============ Dialogs ============ -->
+  <dialog class="dialog" id="confirmDialog" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-body">
+        <h2 id="confirmTitle">Are you sure?</h2>
+        <p id="confirmMessage"></p>
+      </div>
+      <div class="dialog-foot">
+        <button class="btn btn-secondary" id="confirmCancel" value="cancel">Cancel</button>
+        <button class="btn btn-danger" id="confirmOk" value="ok">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog dialog--wide" id="libraryDialog" aria-labelledby="libraryTitle">
+    <div class="dialog-card">
+      <header class="dialog-head">
+        <h2 id="libraryTitle">Saved forms</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close"><span data-icon="close"></span></button>
+      </header>
+      <div class="dialog-body dialog-body--list" id="libraryList"></div>
+      <footer class="dialog-foot dialog-foot--split">
+        <label class="btn btn-secondary">
+          <span data-icon="download" data-size="16"></span><span>Import JSON</span>
+          <input type="file" id="importInput" accept=".json,application/json" hidden>
+        </label>
+        <button type="button" class="btn btn-primary" data-close>Done</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <dialog class="dialog dialog--wide" id="exportDialog" aria-labelledby="exportTitle">
+    <div class="dialog-card">
+      <header class="dialog-head">
+        <h2 id="exportTitle">Export form as JSON</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close"><span data-icon="close"></span></button>
+      </header>
+      <div class="dialog-body">
+        <p class="dialog-lead">This file describes your whole form. You can import it again later from the Open dialog.</p>
+        <textarea class="code-box" id="exportText" readonly spellcheck="false" aria-label="Form JSON"></textarea>
+      </div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn btn-secondary" id="exportCopy"><span data-icon="copy" data-size="16"></span><span>Copy JSON</span></button>
+        <button type="button" class="btn btn-primary" id="exportDownload"><span data-icon="download" data-size="16"></span><span>Download file</span></button>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- Scripts: order matters. Each one only uses the files above it. -->
+  <script src="js/storage.js"></script>
+  <script src="js/preview.js"></script>
+  <script src="js/builder.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
